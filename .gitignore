@@ -1,0 +1,49 @@
+# Maven build output
+/target/
+/.idea/
+/*.iml
+
+# Eclipse IDE files
+/.classpath
+/.project
+/.settings/
+
+# Compiled class files
+**/*.class
+
+# Logs
+/logs/
+/*.log
+
+# User-specific files
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# Local configuration files (e.g., for IDEs)
+*.user
+*.sublime-workspace
+*.sublime-project
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Jakarta temporary files
+/.metadata/
+*.jsp.bak
+
+# H2 Database (if applicable)
+*.h2.db
+
+# IntelliJ IDEA files
+/.idea/
+/out/
+
+# JetBrains IDEs
+.idea/
+*.iml
+
+# Eclipse build files
+*.log
