@@ -14,6 +14,11 @@ import lombok.Setter;
 public abstract class TaskComponent {
 	private long id;
 	private LocalDateTime createdDt;
-	private LocalDateTime deletionDt;
+	private LocalDateTime deletedDt;
 	private LocalDateTime lastModified;
+	
+	public boolean isDeleted()
+	{
+		return deletedDt != null;
+	}
 }

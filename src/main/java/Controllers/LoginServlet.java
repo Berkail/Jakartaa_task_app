@@ -37,7 +37,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.sendRedirect("login.jsp");
 	}
 
 	/**
@@ -51,14 +51,14 @@ public class LoginServlet extends HttpServlet {
 		if(!FormValidator.areNotEmpty(email, password))
 		{
 			request.setAttribute("error", "All fields are required!");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
 		}
 		
 		if(!FormValidator.isValidEmail(email))
 		{
 			request.setAttribute("error", "Email form is incorrect");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+			request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
 		}
 		
@@ -71,15 +71,14 @@ public class LoginServlet extends HttpServlet {
 		if(user == null)
 		{
 			request.setAttribute("error", "Email or Password is incorrect");
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+			System.out.println("booby");
+			request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
 		}
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("userId", user.getId());
+		session.setAttribute("user", user);
 		
 		response.sendRedirect("dashboard.jsp");
-		
-		
 	}
 }

@@ -32,10 +32,6 @@ public class UserDAOImpl implements UserDAO {
 			}
 			return user;
 		} catch (SQLException e) {
-			// Check for duplicate entry violations (unique constraint violation)
-			if (e.getSQLState().equals("23000")) { // Integrity constraint violation
-				throw new IllegalArgumentException("Username or email already exists.");
-			}
 			e.printStackTrace();
 			return null;
 		}

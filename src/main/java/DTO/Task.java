@@ -15,4 +15,9 @@ public class Task extends TaskComponent{
 	private String content;
 	private int priority;
 	private LocalDateTime completedDt;
+	
+	public boolean isCompleted()
+	{
+		return completedDt != null;
+	}
 }

@@ -12,7 +12,7 @@ public class DbConn {
 	// Database credentials
 	private static final String URL = "jdbc:mysql://localhost:3306/task_app_db";
 	private static final String USER = "root";
-	private static final String PASSWORD = "";
+	private static final String PASSWORD = "IMMY7499";
 
 	// Private constructor to prevent instantiation
 	private DbConn() {
