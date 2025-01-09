@@ -13,6 +13,8 @@ import java.sql.Connection;
 
 import DAO.UserDAO;
 import DAO.UserDAOImpl;
+import DAO.TaskDAO;
+import DAO.TaskDAOImpl;
 import DAO.TaskSpaceDAO;
 import DAO.TaskSpaceDAOImpl;
 import DATA.DbConn;
@@ -26,17 +28,19 @@ import Utilities.JsonUtil;
 /**
  * Servlet implementation class TaskSpaceServlet
  */
-@WebServlet("/TaskSpace")
+@WebServlet("/Taskspace")
 public class TaskSpaceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	TaskSpaceDAO taskspacedao;
+	TaskDAO taskdao;
 	TaskSpaceService taskspaceServ;
        
 	@Override
     public void init() throws ServletException {
        taskspacedao = new TaskSpaceDAOImpl(DbConn.getInstance().getConnection());
-       taskspaceServ = new TaskSpaceService(taskspacedao);
+       taskdao = new TaskDAOImpl(DbConn.getInstance().getConnection());
+       taskspaceServ = new TaskSpaceService(taskspacedao, taskdao);
     }
 	
     public TaskSpaceServlet() {
@@ -46,8 +50,51 @@ public class TaskSpaceServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
         
+        // Check if the user is logged in
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("login.jsp");
+            return; // Make sure no further code is executed after redirect
+        }
+        
+        // Retrieve the user object from the session
+        User user = (User) session.getAttribute("user");
+        
+        // Get the taskSpaceId from the request parameters
+        String taskSpaceIdParam = request.getParameter("taskspaceId");
+        if (taskSpaceIdParam == null) {
+            response.sendRedirect("errorPage.jsp"); // Redirect to an error page if taskSpaceId is missing
+            return;
+        }
+        
+        long taskSpaceId;
+        try {
+            taskSpaceId = Long.parseLong(taskSpaceIdParam);
+        } catch (NumberFormatException e) {
+            response.sendRedirect("errorPage.jsp"); // Handle invalid taskSpaceId format
+            return;
+        }
+        
+        // Find the selected taskSpace by ID
+        TaskSpace selectedTaskSpace = user.getTaskSpaceById(taskSpaceId);
+        
+        // If no matching taskSpace was found, handle the error
+        if (selectedTaskSpace == null) {
+            response.sendRedirect("errorPage.jsp"); // Redirect to an error page or show a message
+            return;
+        }
+        
+        // Populate the tasks for the selected taskSpace
+        taskspaceServ.populateTasks(selectedTaskSpace);
+        
+        // Set the current taskSpaceId in the session
+        session.setAttribute("currentTaskSpaceId", taskSpaceId);
+        
+        // Forward the request to the appropriate JSP page (for displaying tasks)
+        response.sendRedirect("dashboard.jsp");
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 

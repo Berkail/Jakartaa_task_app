@@ -23,4 +23,16 @@ public class User {
 	private LocalDateTime lastConnDt;
 	
 	private List<TaskSpace> taskSpaces;
+	
+	public TaskSpace getTaskSpaceById(long taskspaceId)
+	{
+		for(TaskSpace ts : taskSpaces)
+		{
+			if(ts.getId() == taskspaceId)
+			{
+				return ts;
+			}
+		}
+		return null;
+	}
 }

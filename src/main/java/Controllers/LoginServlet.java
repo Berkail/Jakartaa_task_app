@@ -80,6 +80,6 @@ public class LoginServlet extends HttpServlet {
 		session.setAttribute("user", user);
 		
 		request.setAttribute("user", user);
-	    request.getRequestDispatcher("/Dashboard").forward(request, response);
+	    response.sendRedirect("Dashboard");
 	}
 }

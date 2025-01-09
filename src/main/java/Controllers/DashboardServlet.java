@@ -31,20 +31,7 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	/*
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        request.getRequestDispatcher("dashboard.jsp").forward(request, response);
-        */
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+    	HttpSession session = request.getSession(false);
         Connection conn = null;
         
         try {
@@ -69,18 +56,24 @@ public class DashboardServlet extends HttpServlet {
             
             session.setAttribute("user", user);
 
-            if (session.getAttribute("activeWorkspaceId") == null && 
+            if (session.getAttribute("currTaskspaceId") == null && 
                 user.getTaskSpaces() != null && 
                 !user.getTaskSpaces().isEmpty()) {
-                session.setAttribute("activeWorkspaceId", user.getTaskSpaces().get(0).getId());
+                session.setAttribute("currTaskspaceId", user.getTaskSpaces().get(0).getId());
             }
             
-            System.out.println(session.getAttribute("activeWorkspaceId"));
+            System.out.println(session.getAttribute("currTaskspaceId"));
 
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("error.jsp");
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
     }
 }
