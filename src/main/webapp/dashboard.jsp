@@ -275,8 +275,7 @@ body {
 				<%
 				User user = (User) session.getAttribute("user");
 				List<TaskSpace> workspaces = (List<TaskSpace>) user.getTaskSpaces();
-				Integer activeWorkspaceId = (Integer) request.getAttribute("activeWorkspaceId");
-
+				Long activeWorkspaceId = (Long) session.getAttribute("activeWorkspaceId");
 				if (workspaces != null) {
 					for (TaskSpace workspace : workspaces) {
 						String activeClass = (workspace.getId() == activeWorkspaceId) ? "active" : "";
@@ -343,11 +342,11 @@ body {
 			<h2>Create New Workspace</h2>
 			<div class="form-group">
 				<label>Workspace Title</label> <input type="text"
-					id="workspaceTitle" placeholder="Enter workspace title">
+					id="workspaceTitle" placeholder="Enter workspace title" required>
 			</div>
 			<div class="form-group">
 				<label>Description</label> <input type="text" id="workspaceDesc"
-					placeholder="Enter workspace description">
+					placeholder="Enter workspace description" required>
 			</div>
 			<div class="modal-buttons">
 				<button class="cancel-btn" onclick="hideModal()">Cancel</button>
@@ -356,9 +355,68 @@ body {
 			</div>
 		</div>
 	</div>
-
 	<script>
+	function showModal() {
+        document.getElementById("workspaceModal").style.display = "flex";
+    }
 
-    </script>
+    function hideModal() {
+        document.getElementById("workspaceModal").style.display = "none";
+    }
+
+    function createWorkspace() {
+        const title = document.getElementById("workspaceTitle").value;
+        const description = document.getElementById("workspaceDesc").value;
+
+        if (title.trim() === "") {
+            alert("Workspace title is required.");
+            return;
+        }
+
+        const data = {
+            title: title,
+            description: description
+        };
+
+        fetch('TaskSpace', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams(data).toString()
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            
+            if (data.success && data.workspace) {
+                // Add the new workspace to the list
+                const workspaceList = document.querySelector('.workspace-list');
+                const workspaceItem = document.createElement('div');
+                workspaceItem.className = 'workspace-item';
+                workspaceItem.onclick = () => loadWorkspace(data.workspace.id);
+                workspaceItem.innerHTML = `
+                    <i class="fas fa-folder"></i>
+                    ${data.workspace.title}
+                `;
+                
+                workspaceList.appendChild(workspaceItem);
+
+                // Clear the form and hide the modal
+                hideModal();
+                document.getElementById("workspaceTitle").value = "";
+                document.getElementById("workspaceDesc").value = "";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to create workspace. Please try again.');
+        });
+    }
+
+</script>
 </body>
 </html>

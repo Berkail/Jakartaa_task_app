@@ -24,59 +24,63 @@ import Services.UserService;
 /**
  * Servlet implementation class DashboardServlet
  */
-@WebServlet("/Dashboard /Dashboard.jsp")
+@WebServlet("/Dashboard")
 public class DashboardServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public DashboardServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+    	/*
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+        */
+    }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user"); // Get user from session
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(false);
+        Connection conn = null;
+        
+        try {
+            if (session == null || session.getAttribute("user") == null) {
+                response.sendRedirect("login.jsp");
+                return;
+            }
 
-		if (user == null) {
-			// Redirect to login page if user is not logged in
-			response.sendRedirect("login.jsp");
-			return;
-		}
+            User user = (User) session.getAttribute("user");
+            
+            conn = DbConn.getInstance().getConnection();
+            UserDAO userdao = new UserDAOImpl(conn);
+            TaskSpaceDAO taskspacedao = new TaskSpaceDAOImpl(conn);
+            UserService userServ = new UserService(userdao, taskspacedao);
 
-		Connection conn = DbConn.getInstance().getConnection();
-		UserDAO userdao = new UserDAOImpl(conn);
-		TaskSpaceDAO taskspacedao = new TaskSpaceDAOImpl(conn);
-		UserService userServ = new UserService(userdao, taskspacedao);
+            userServ.populateTaskSpaces(user);
+            
+            for(TaskSpace ts : user.getTaskSpaces())
+            {
+            	System.out.println(ts.getTitle());
+            }
+            
+            session.setAttribute("user", user);
 
-		userServ.populateTaskSpaces(user);
-		
-		session.setAttribute("user", user);
-		
-		if(session.getAttribute("activeWorkspaceId") == null && user.getTaskSpaces() != null && !user.getTaskSpaces().isEmpty())
-		{
-			session.setAttribute("activeWorkspaceId", user.getTaskSpaces().get(0).getId());
-		}
-		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/dashboard.jsp");
-		dispatcher.forward(request, response);
-	}
+            if (session.getAttribute("activeWorkspaceId") == null && 
+                user.getTaskSpaces() != null && 
+                !user.getTaskSpaces().isEmpty()) {
+                session.setAttribute("activeWorkspaceId", user.getTaskSpaces().get(0).getId());
+            }
+            
+            System.out.println(session.getAttribute("activeWorkspaceId"));
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+            request.getRequestDispatcher("dashboard.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("error.jsp");
+        }
+    }
 }

@@ -79,6 +79,7 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		
-		response.sendRedirect("dashboard.jsp");
+		request.setAttribute("user", user);
+	    request.getRequestDispatcher("/Dashboard").forward(request, response);
 	}
 }

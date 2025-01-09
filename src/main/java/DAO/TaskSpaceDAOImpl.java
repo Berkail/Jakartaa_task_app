@@ -65,7 +65,7 @@ public class TaskSpaceDAOImpl implements TaskSpaceDAO{
 	@Override
 	public List<TaskSpace> getByUserId(long userId) {
         List<TaskSpace> taskSpaces = new ArrayList<>();
-        String query = "SELECT * FROM task_spaces WHERE user_id = ?";
+        String query = "SELECT * FROM task_spaces WHERE user_id = ? And deletion_dt IS NULL";
         
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setLong(1, userId);  // Set the userId in the prepared statement
