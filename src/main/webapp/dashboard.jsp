@@ -310,6 +310,7 @@ body {
                 </div>
                 <%
                 }
+                    
                 }
                 %>
             </div>
@@ -390,16 +391,13 @@ body {
         }
 
         function saveWorkspace() {
-            // Get the input values
             const title = document.getElementById('workspaceTitle').value;
             const description = document.getElementById('workspaceDesc').value;
 
-            // Make an AJAX request to the servlet
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'Taskspace', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-            // Handle the response from the server
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
@@ -413,10 +411,8 @@ body {
                 }
             };
 
-            // Send the data to the server
             xhr.send('title=' + encodeURIComponent(title) + '&description=' + encodeURIComponent(description));
 
-            // Close the modal after submitting the form
             closeModal();
         }
 
@@ -437,8 +433,7 @@ body {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // If the task is added successfully, you can update the UI or reload the task list
-                        window.location.reload(); // Optional: reload the page to show the new task
+                        window.location.reload();
                     } else {
                         alert('Failed to add task: ' + data.error);
                     }
@@ -453,8 +448,31 @@ body {
         }
 
         function completeTask(taskId) {
-            // Mark task as complete
+            fetch('Task', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ taskId: taskId }) // Send the taskId in the body as JSON
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Task completed successfully");
+                    document.querySelector(`button[onclick="completeTask(${taskId})"]`).disabled = true;
+                    location.reload();
+                } else {
+                    alert("Failed to complete task");
+                }
+            })
+            .catch(error => {
+                console.error('Error completing task:', error);
+                location.reload();
+            });
         }
+
+
+
+
     </script>
 </body>
 </html>

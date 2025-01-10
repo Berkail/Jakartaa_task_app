@@ -21,5 +21,10 @@ public class TaskService {
 		task.setCreatedDt(LocalDateTime.now());
 		return taskdao.save(task, taskspaceId);
 	}
-
+	
+	public void completeTask(Task task)
+	{
+		task.setCompletedDt(LocalDateTime.now());
+		taskdao.update(task);
+	}
 }

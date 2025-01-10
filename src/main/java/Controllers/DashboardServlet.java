@@ -63,10 +63,13 @@ public class DashboardServlet extends HttpServlet {
                 session.setAttribute("currTaskspaceId", user.getTaskSpaces().get(0).getId());
             }
             
-            long taskspaceId = (long)session.getAttribute("currTaskspaceId");
-            TaskSpace taskspace = user.getTaskSpaceById(taskspaceId);
-            taskspaceServ.populateTasks(taskspace);
-
+            if(session.getAttribute("currTaskspaceId") != null)
+            {
+            	long taskspaceId = (long) session.getAttribute("currTaskspaceId");
+                TaskSpace taskspace = user.getTaskSpaceById(taskspaceId);
+                taskspaceServ.populateTasks(taskspace);
+            }
+            
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

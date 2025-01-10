@@ -70,7 +70,6 @@ public class LoginServlet extends HttpServlet {
 		if(user == null)
 		{
 			request.setAttribute("error", "Email or Password is incorrect");
-			System.out.println("booby");
 			request.getRequestDispatcher("login.jsp").forward(request, response);
             return;
 		}

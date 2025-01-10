@@ -152,7 +152,7 @@ button {
 		<div class="shape"></div>
 		<div class="shape"></div>
 	</div>
-	<form action="Signup" method="post">
+	<form action="Signup" method="post" autocomplete="off">
 		<h3>Sign up</h3>
 		<%
 		String errorMessage = (String) request.getAttribute("error");

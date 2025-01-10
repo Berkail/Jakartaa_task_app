@@ -104,7 +104,7 @@ public class TaskDAOImpl implements TaskDAO{
 	@Override
     public List<Task> getByTaskSpaceId(long taskSpaceId) {
         List<Task> tasks = new ArrayList<>();
-        String query = "SELECT * FROM tasks WHERE task_space_id = ?";  // Assuming tasks table has task_space_id column
+        String query = "SELECT * FROM tasks WHERE task_space_id = ? And completion_dt IS NULL ";  // Assuming tasks table has task_space_id column
         
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setLong(1, taskSpaceId);  // Set the taskSpaceId parameter
