@@ -1,6 +1,5 @@
 package Controllers;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,8 +9,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.List;
-
 import DAO.UserDAO;
 import DAO.UserDAOImpl;
 import DAO.TaskSpaceDAOImpl;

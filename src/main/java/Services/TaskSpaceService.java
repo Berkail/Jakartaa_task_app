@@ -7,7 +7,6 @@ import DAO.TaskDAO;
 import DAO.TaskSpaceDAO;
 import DTO.Task;
 import DTO.TaskSpace;
-import DTO.User;
 
 public class TaskSpaceService {
 	TaskSpaceDAO taskspacedao;

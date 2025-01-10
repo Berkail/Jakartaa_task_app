@@ -9,10 +9,6 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-
-import DAO.UserDAO;
-import DAO.UserDAOImpl;
 import DAO.TaskDAO;
 import DAO.TaskDAOImpl;
 import DAO.TaskSpaceDAO;
@@ -21,7 +17,6 @@ import DATA.DbConn;
 import DTO.TaskSpace;
 import DTO.User;
 import Services.TaskSpaceService;
-import Services.UserService;
 import Utilities.FormValidator;
 import Utilities.JsonUtil;
 

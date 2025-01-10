@@ -20,7 +20,7 @@ import Utilities.FormValidator;
 /**
  * Servlet implementation class LoginServlet
  */
-@WebServlet("/Login")
+@WebServlet({"/Login", "/login.html"})
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -35,9 +35,19 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+    		HttpSession session = request.getSession(false);
+    		
+    		boolean isAuthenticated = (session != null && session.getAttribute("user") != null);
+    		if(isAuthenticated)
+    		{
+    			response.sendRedirect("Dashboard");
+    			return;
+    		}
+    		getServletContext().getRequestDispatcher("/login.jsp").forward(request, response);
+    }
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -74,7 +84,14 @@ public class LoginServlet extends HttpServlet {
             return;
 		}
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		
+		if(session != null)
+		{
+			session.invalidate();
+			session = request.getSession();
+		}
+		
 		session.setAttribute("user", user);
 		
 		request.setAttribute("user", user);
