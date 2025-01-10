@@ -163,9 +163,9 @@ button {
 		<%
 		}
 		%>
-		<label for="Email">Email</label> <input type="email"
+		<label for="Email">Email*</label> <input type="email"
 			placeholder="Email" id="email" name="email" required> <label
-			for="password">Password</label> <input type="password"
+			for="password">Password*</label> <input type="password"
 			placeholder="Password" id="password" name="password" required>
 
 		<button>Log In</button>

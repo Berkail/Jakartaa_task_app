@@ -359,16 +359,16 @@ body {
         </div>
     </div>
 
-    <div class="modal-overlay" id="workspaceModal">
+    <div class="modal-overlay" id="workspaceModal" >
         <div class="modal">
             <h2>Create New Workspace</h2>
             <div class="form-group">
                 <label>Workspace Title</label> 
-                <input type="text" id="workspaceTitle" placeholder="Enter workspace title" required>
+                <input type="text" id="workspaceTitle" placeholder="Enter workspace title" autocomplete="off" required>
             </div>
             <div class="form-group">
                 <label>Description</label> 
-                <input type="text" id="workspaceDesc" placeholder="Enter description" required>
+                <input type="text" id="workspaceDesc" placeholder="Enter description" autocomplete="off" required>
             </div>
             <div class="modal-buttons">
                 <button class="save-btn" onclick="saveWorkspace()">Save</button>
