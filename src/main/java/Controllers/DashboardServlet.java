@@ -19,6 +19,9 @@ import DAO.TaskSpaceDAO;
 import DATA.DbConn;
 import DTO.User;
 import DTO.TaskSpace;
+import DAO.TaskDAO;
+import DAO.TaskDAOImpl;
+import Services.TaskSpaceService;
 import Services.UserService;
 
 /**
@@ -44,15 +47,13 @@ public class DashboardServlet extends HttpServlet {
             
             conn = DbConn.getInstance().getConnection();
             UserDAO userdao = new UserDAOImpl(conn);
+            TaskDAO taskdao = new TaskDAOImpl(conn);
             TaskSpaceDAO taskspacedao = new TaskSpaceDAOImpl(conn);
             UserService userServ = new UserService(userdao, taskspacedao);
+            TaskSpaceService taskspaceServ = new TaskSpaceService(taskdao);
 
             userServ.populateTaskSpaces(user);
             
-            for(TaskSpace ts : user.getTaskSpaces())
-            {
-            	System.out.println(ts.getTitle());
-            }
             
             session.setAttribute("user", user);
 
@@ -62,7 +63,9 @@ public class DashboardServlet extends HttpServlet {
                 session.setAttribute("currTaskspaceId", user.getTaskSpaces().get(0).getId());
             }
             
-            System.out.println(session.getAttribute("currTaskspaceId"));
+            long taskspaceId = (long)session.getAttribute("currTaskspaceId");
+            TaskSpace taskspace = user.getTaskSpaceById(taskspaceId);
+            taskspaceServ.populateTasks(taskspace);
 
             request.getRequestDispatcher("dashboard.jsp").forward(request, response);
         } catch (Exception e) {

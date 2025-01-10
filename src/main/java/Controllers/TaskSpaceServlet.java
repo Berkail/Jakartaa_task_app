@@ -64,6 +64,7 @@ public class TaskSpaceServlet extends HttpServlet {
         // Get the taskSpaceId from the request parameters
         String taskSpaceIdParam = request.getParameter("taskspaceId");
         if (taskSpaceIdParam == null) {
+        	System.out.println("1");
             response.sendRedirect("errorPage.jsp"); // Redirect to an error page if taskSpaceId is missing
             return;
         }
@@ -72,6 +73,7 @@ public class TaskSpaceServlet extends HttpServlet {
         try {
             taskSpaceId = Long.parseLong(taskSpaceIdParam);
         } catch (NumberFormatException e) {
+        	System.out.println("2");
             response.sendRedirect("errorPage.jsp"); // Handle invalid taskSpaceId format
             return;
         }
@@ -81,6 +83,7 @@ public class TaskSpaceServlet extends HttpServlet {
         
         // If no matching taskSpace was found, handle the error
         if (selectedTaskSpace == null) {
+        	System.out.println("3");
             response.sendRedirect("errorPage.jsp"); // Redirect to an error page or show a message
             return;
         }
@@ -89,12 +92,11 @@ public class TaskSpaceServlet extends HttpServlet {
         taskspaceServ.populateTasks(selectedTaskSpace);
         
         // Set the current taskSpaceId in the session
-        session.setAttribute("currentTaskSpaceId", taskSpaceId);
+        session.setAttribute("currTaskspaceId", taskSpaceId);
         
         // Forward the request to the appropriate JSP page (for displaying tasks)
-        response.sendRedirect("dashboard.jsp");
+        response.sendRedirect("Dashboard");
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 

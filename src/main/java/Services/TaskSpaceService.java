@@ -19,6 +19,11 @@ public class TaskSpaceService {
 		this.taskdao = taskdao;
 	}
 	
+	public TaskSpaceService(TaskDAO taskdao)
+	{
+		this.taskdao = taskdao;
+	}
+	
 	public TaskSpace createTaskSpace(String title, String description, long userId)
 	{
 		TaskSpace taskspace = new TaskSpace();

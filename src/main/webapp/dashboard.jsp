@@ -249,6 +249,25 @@ body {
     background: #e8f6ef;
     border-left: 4px solid #28a745;
 }
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* For Firefox */
+body {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+}
 </style>
 </head>
 <body>
@@ -349,7 +368,7 @@ body {
 
     <script>
         function loadWorkspace(id) {
-            window.location.href = 'Taskspace?id=' + id;
+            window.location.href = 'Taskspace?taskspaceId=' + id;
         }
 
         function showModal() {
@@ -393,8 +412,34 @@ body {
 
         function addTask() {
             const taskContent = document.querySelector('.task-input').value;
+
             if (taskContent) {
-                // Add task logic here
+                const taskData = new URLSearchParams();
+                taskData.append("content", taskContent);
+
+                fetch('Task', {
+                    method: 'POST',
+                    body: taskData,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // If the task is added successfully, you can update the UI or reload the task list
+                        alert('Task added successfully!');
+                        window.location.reload(); // Optional: reload the page to show the new task
+                    } else {
+                        alert('Failed to add task: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the task.');
+                });
+            } else {
+                alert('Please enter a task.');
             }
         }
 

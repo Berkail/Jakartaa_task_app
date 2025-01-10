@@ -22,18 +22,15 @@ public class TaskDAOImpl implements TaskDAO{
 	@Override
 	public Task save(Task task, long taskSpaceId) {
 	    // SQL query for inserting a new task
-	    String query = "INSERT INTO tasks (content, priority, creation_dt, deletion_dt, last_modified_dt, completion_dt, task_space_id) "
-	                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	    String query = "INSERT INTO tasks (content, priority, creation_dt, task_space_id) "
+	                 + "VALUES (?, ?, ?, ?)";
 
 	    try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 	        // Set parameters for the task
 	        stmt.setString(1, task.getContent());  // Task content
 	        stmt.setInt(2, task.getPriority());  // Task priority
 	        stmt.setTimestamp(3, task.getCreatedDt() != null ? Timestamp.valueOf(task.getCreatedDt()) : null);  // Task creation timestamp
-	        stmt.setTimestamp(4, task.getDeletedDt() != null ? Timestamp.valueOf(task.getDeletedDt()) : null);  // Task deletion timestamp
-	        stmt.setTimestamp(5, task.getLastModified() != null ? Timestamp.valueOf(task.getLastModified()) : null);  // Task last modified timestamp
-	        stmt.setTimestamp(6, task.getCompletedDt() != null ? Timestamp.valueOf(task.getCompletedDt()) : null);  // Task completion timestamp
-	        stmt.setLong(7, taskSpaceId);  // The task's associated taskSpaceId
+	        stmt.setLong(4, taskSpaceId);  // The task's associated taskSpaceId
 
 	        // Execute the insert query
 	        int affectedRows = stmt.executeUpdate();
