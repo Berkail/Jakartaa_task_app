@@ -169,6 +169,7 @@ button {
 			placeholder="Password" id="password" name="password" required>
 
 		<button>Log In</button>
+		<a href="signup.jsp" style="margin: 0 auto;">or sign up</a>
 	</form>
 </body>
 </html>

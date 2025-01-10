@@ -55,7 +55,7 @@ body {
 }
 
 form {
-	height: 700px;
+	height: 720px;
 	width: 400px;
 	background-color: rgba(255, 255, 255, 0.13);
 	position: absolute;
@@ -172,6 +172,7 @@ button {
 			Password*</label> <input type="password" placeholder="Confirm Password"
 			id="confPwd" name="confPwd">
 		<button>Sign up</button>
+		<a href="login.jsp">or login</a>
 	</form>
 </body>
 </html>

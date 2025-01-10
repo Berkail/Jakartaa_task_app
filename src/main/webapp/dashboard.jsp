@@ -17,14 +17,15 @@
 }
 
 body {
-    background: #f0f2f5;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0;
     min-height: 100vh;
 }
 
 .navbar {
-    background: white;
+    background: #1e1e1e;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -36,7 +37,7 @@ body {
 
 .username {
     font-weight: 500;
-    color: #1a73e8;
+    color: #90caf9;
 }
 
 .logout-btn {
@@ -59,11 +60,11 @@ body {
 
 .sidebar {
     width: 300px;
-    background: white;
+    background: #1e1e1e;
     padding: 2rem;
     height: calc(100vh - 64px);
     position: fixed;
-    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
 }
@@ -76,26 +77,27 @@ body {
 .workspace-item {
     padding: 1rem;
     margin: 0.5rem 0;
-    background: #f8f9fa;
+    background: #333;
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s;
+    color: #e0e0e0;
 }
 
 .workspace-item:hover {
-    background: #e9ecef;
+	background: #444;
     transform: translateX(5px);
 }
 
 .workspace-item.active {
-    background: #1a73e8;
-    color: white;
+    background: #90caf9; 
+    color: #121212;
 }
 
 .add-workspace-btn {
     padding: 1rem;
-    background: #1a73e8;
-    color: white;
+    background: #90caf9;
+    color: #121212;
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -112,7 +114,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(5px);
     display: none;
     justify-content: center;
@@ -121,17 +123,17 @@ body {
 }
 
 .modal {
-    background: white;
+    background: #1e1e1e;
     padding: 2rem;
     border-radius: 12px;
     width: 90%;
     max-width: 500px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 .modal h2 {
     margin-bottom: 1.5rem;
-    color: #1a73e8;
+    color: #90caf9;
 }
 
 .form-group {
@@ -147,9 +149,11 @@ body {
 .form-group input {
     width: 100%;
     padding: 0.75rem;
-    border: 2px solid #dee2e6;
+    border: 2px solid #555;
     border-radius: 6px;
     font-size: 1rem;
+    background: #333;
+    color: #e0e0e0;
 }
 
 .modal-buttons {
@@ -168,13 +172,13 @@ body {
 }
 
 .save-btn {
-    background: #1a73e8;
-    color: white;
+    background: #90caf9;
+    color: #121212;
 }
 
 .cancel-btn {
-    background: #dee2e6;
-    color: #495057;
+    background: #555;
+    color: #e0e0e0;
 }
 
 .content {
@@ -184,10 +188,10 @@ body {
 }
 
 .task-input-container {
-    background: white;
+    background: #1e1e1e;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     margin-bottom: 2rem;
     display: flex;
     gap: 1rem;
@@ -196,29 +200,31 @@ body {
 .task-input {
     flex: 1;
     padding: 0.75rem;
-    border: 2px solid #dee2e6;
+    border: 2px solid #555;
     border-radius: 6px;
     font-size: 1rem;
+    background: #333;
+    color: #e0e0e0;
 }
 
 .add-task-btn {
     padding: 0.75rem 1.5rem;
-    background: #1a73e8;
-    color: white;
+    background: #90caf9;
+    color: #121212;
     border: none;
     border-radius: 6px;
 }
 
 .task-list {
-    background: white;
+    background: #1e1e1e;
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .task {
     padding: 1rem;
-    background: #f8f9fa;
+    background: #333;
     border-radius: 8px;
     margin-bottom: 1rem;
     display: flex;
@@ -228,7 +234,7 @@ body {
 }
 
 .task:first-child {
-    border-left: 4px solid #1a73e8;
+    border-left: 4px solid #90caf9;
 }
 
 .complete-btn {
@@ -246,8 +252,8 @@ body {
 }
 
 .completed {
-    background: #e8f6ef;
-    border-left: 4px solid #28a745;
+    background: #2e7d32;
+    border-left: 4px solid #4caf50;
 }
 
 ::-webkit-scrollbar {
@@ -261,6 +267,10 @@ body {
 
 ::-webkit-scrollbar-track {
     background: transparent;
+}
+
+.pointy{
+	cursor: pointer;
 }
 
 /* For Firefox */
@@ -314,7 +324,7 @@ body {
             %>
             <div class="task-input-container">
                 <input type="text" class="task-input" placeholder="Enter a new task...">
-                <button class="add-task-btn" onclick="addTask()"> 
+                <button class="add-task-btn pointy" onclick="addTask()"> 
                     <i class="fas fa-plus"></i> Add Task
                 </button>
             </div>
@@ -428,7 +438,6 @@ body {
                 .then(data => {
                     if (data.success) {
                         // If the task is added successfully, you can update the UI or reload the task list
-                        alert('Task added successfully!');
                         window.location.reload(); // Optional: reload the page to show the new task
                     } else {
                         alert('Failed to add task: ' + data.error);
